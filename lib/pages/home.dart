@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 
 class Home extends StatefulWidget {
@@ -11,17 +9,17 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: PageView(
-        scrollDirection: Axis.vertical,
+      body: PageView.builder(
         controller: PageController(),
-        children: [
-          for (var i = 0; i < 10; i++)
-            Container(
-              color: Color(
-                (Random().nextDouble() * 0xFFFFFF).toInt(),
-              ).withOpacity(1),
+        itemCount: 5,
+        itemBuilder: (context, index) {
+          return Container(
+            child: Image.network(
+              "https://soruce.unsplash.com/random",
+              fit: BoxFit.cover,
             ),
-        ],
+          );
+        },
       ),
     );
   }
