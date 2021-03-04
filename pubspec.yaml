@@ -10,5 +10,7 @@ dependencies:
   flutter:
     sdk: flutter
 
+  hidden_drawer_menu: ^2.0.1
+
 flutter:
   uses-material-design: true
