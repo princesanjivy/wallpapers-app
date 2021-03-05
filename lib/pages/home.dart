@@ -7,7 +7,6 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-
   @override
   Widget build(BuildContext context) {
     return SimpleHiddenDrawer(
@@ -21,31 +20,29 @@ class _HomeState extends State<Home> {
         },
       ),
       screenSelectedBuilder: (position, controller) {
-        return PageView(
-          physics:,
-          controller: PageController(),
-          children: [
-            Scaffold(
-              body: Center(
+        return Scaffold(
+          appBar: AppBar(
+            leading: Icon(
+              Icons.menu,
+              color: Colors.blue,
+            ),
+            backgroundColor: Colors.transparent,
+            elevation: 0,
+          ),
+          body: PageView(
+            controller: PageController(),
+            children: [
+              Center(
                 child: Text("Hello"),
               ),
-            ),
-            Scaffold(
-              body: Center(
-                child: Text("Hi"),
+              Center(
+                child: Text("Hello"),
               ),
-            ),
-            Scaffold(
-              body: Center(
-                child: TextButton(
-                  child: Text("Click Me"),
-                  onPressed: () {
-                    controller.toggle();
-                  },
-                ),
+              Center(
+                child: Text("Hello"),
               ),
-            ),
-          ],
+            ],
+          ),
         );
       },
     );
