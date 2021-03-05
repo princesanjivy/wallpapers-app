@@ -9,42 +9,64 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
-    return SimpleHiddenDrawer(
-      contentCornerRadius: 30,
-      slidePercent: 65,
-      menu: ElevatedButton(
-        child: Text("Settings"),
-        onPressed: () {
-          SimpleHiddenDrawerController controller;
-          controller.setSelectedMenuPosition(0);
+    return Scaffold(
+      body: SimpleHiddenDrawer(
+        contentCornerRadius: 30,
+        slidePercent: 60,
+        menu: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            TextButton(
+              child: Text("Settings"),
+              onPressed: () {},
+            ),
+            TextButton(
+              child: Text("Rate & Review"),
+              onPressed: () {},
+            ),
+            TextButton(
+              child: Text("Credits"),
+              onPressed: () {},
+            ),
+            TextButton(
+              child: Text("About"),
+              onPressed: () {},
+            ),
+          ],
+        ),
+        screenSelectedBuilder: (position, controller) {
+          return Scaffold(
+            appBar: AppBar(
+              leading: InkWell(
+                child: Icon(
+                  Icons.menu,
+                  color: Colors.blue,
+                ),
+                onTap: () {
+                  controller.toggle();
+                },
+              ),
+              backgroundColor: Colors.transparent,
+              elevation: 0,
+            ),
+            body: PageView(
+              controller: PageController(),
+              children: [
+                Center(
+                  child: Text("Hello"),
+                ),
+                Center(
+                  child: Text("Hello"),
+                ),
+                Center(
+                  child: Text("Hello"),
+                ),
+              ],
+            ),
+          );
         },
       ),
-      screenSelectedBuilder: (position, controller) {
-        return Scaffold(
-          appBar: AppBar(
-            leading: Icon(
-              Icons.menu,
-              color: Colors.blue,
-            ),
-            backgroundColor: Colors.transparent,
-            elevation: 0,
-          ),
-          body: PageView(
-            controller: PageController(),
-            children: [
-              Center(
-                child: Text("Hello"),
-              ),
-              Center(
-                child: Text("Hello"),
-              ),
-              Center(
-                child: Text("Hello"),
-              ),
-            ],
-          ),
-        );
-      },
     );
   }
 }
