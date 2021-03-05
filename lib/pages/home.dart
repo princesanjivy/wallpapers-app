@@ -18,19 +18,19 @@ class _HomeState extends State<Home> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             TextButton(
-              child: Text("Settings"),
+              child: Image.network("Settings"),
               onPressed: () {},
             ),
             TextButton(
-              child: Text("Rate & Review"),
+              child: Image.network("Rate & Review"),
               onPressed: () {},
             ),
             TextButton(
-              child: Text("Credits"),
+              child: Image.network("Credits"),
               onPressed: () {},
             ),
             TextButton(
-              child: Text("About"),
+              child: Image.network("About"),
               onPressed: () {},
             ),
           ],
@@ -54,15 +54,23 @@ class _HomeState extends State<Home> {
               controller: PageController(),
               children: [
                 Center(
-                  child: Text("Hello"),
+                  child: Image.network(
+                      "https://images.unsplash.com/photo-1614886750264-afed539cf2bb?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=334&q=80"),
                 ),
                 Center(
-                  child: Text("Hello"),
+                  child: Image.network(
+                      "https://images.unsplash.com/photo-1614945083613-7763b4897841?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=334&q=80"),
                 ),
                 Center(
-                  child: Text("Hello"),
+                  child: Image.network(
+                      "https://images.unsplash.com/photo-1614788404413-ca65466f81f8?ixid=MXwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHwyMnx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"),
                 ),
               ],
+            ),
+            floatingActionButton: FloatingActionButton(
+              onPressed: () {
+                print("Options");
+              },
             ),
           );
         },
