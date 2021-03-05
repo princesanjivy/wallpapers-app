@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:hidden_drawer_menu/hidden_drawer_menu.dart';
+import 'package:wallpaper_manager/wallpaper_manager.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -67,6 +69,22 @@ class _HomeState extends State<Home> {
                   fit: BoxFit.cover,
                 ),
               ],
+            ),
+            floatingActionButton: FloatingActionButton(
+              child: Icon(
+                Icons.file_download,
+                color: Colors.white,
+              ),
+              onPressed: () async {
+                int location = WallpaperManager.HOME_SCREEN;
+                var file = await DefaultCacheManager().getSingleFile(
+                    "https://images.unsplash.com/photo-1614788404413-ca65466f81f8?ixid=MXwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHwyMnx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60");
+
+                final String result =
+                    await WallpaperManager.setWallpaperFromFile(
+                        file.path, location);
+                print(result);
+              },
             ),
           );
         },
