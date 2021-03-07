@@ -1,15 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:hidden_drawer_menu/hidden_drawer_menu.dart';
 import 'package:lottie/lottie.dart';
-import 'package:wallpapers/components/show_heart.dart';
 
 class Home extends StatefulWidget {
   @override
   _HomeState createState() => _HomeState();
 }
 
-class _HomeState extends State<Home> {
+class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
   bool showHeart = false;
+  AnimationController animationController;
+
+  @override
+  void initState() {
+    super.initState();
+
+    animationController = AnimationController(vsync: this);
+    animationController.stop();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -59,27 +67,32 @@ class _HomeState extends State<Home> {
             body: PageView(
               controller: PageController(),
               children: [
-                GestureDetector(
-                  onDoubleTap: () {
-                    setState(() {
-                      showHeart = true;
-                    });
-                  },
-                  child: Stack(
-                    fit: StackFit.expand,
-                    alignment: Alignment.center,
-                    children: [
-                      Center(
-                        child: HeartAnimation(),
-                      ),
-                      // Image.network(
-                      //   "https://images.unsplash.com/photo-1614886750264-afed539cf2bb?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=334&q=80",
-                      //   fit: BoxFit.cover,
-                      // ),
-                    ],
-                  ),
+                // GestureDetector(
+                //   onDoubleTap: () {
+                //     setState(() {
+                //       showHeart = true;
+                //     });
+                //   },
+                //   child: Stack(
+                //     fit: StackFit.expand,
+                //     alignment: Alignment.center,
+                //     children: [
+                //       Center(
+                //         child: HeartAnimation(),
+                //       ),
+                //       // Image.network(
+                //       //   "https://images.unsplash.com/photo-1614886750264-afed539cf2bb?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=334&q=80",
+                //       //   fit: BoxFit.cover,
+                //       // ),
+                //     ],
+                //   ),
+                // ),
+                Lottie.asset(
+                  "assets/lottiefiles/heart.json",
+                  controller: animationController,
+                  repeat: false,
+                  frameRate: FrameRate.max,
                 ),
-                Lottie.asset("assets/lottiefiles/hearts.json"),
                 Image.network(
                   "https://images.unsplash.com/photo-1614945083613-7763b4897841?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=334&q=80",
                   fit: BoxFit.cover,
