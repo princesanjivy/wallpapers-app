@@ -7,7 +7,7 @@ class Home extends StatefulWidget {
   _HomeState createState() => _HomeState();
 }
 
-class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
+class _HomeState extends State<Home> with TickerProviderStateMixin {
   bool showHeart = false;
   AnimationController animationController;
 
@@ -16,7 +16,18 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
     super.initState();
 
     animationController = AnimationController(vsync: this);
-    animationController.stop();
+    animationController.addListener(() {
+      setState(() {
+        if (animationController.isCompleted) showHeart = false;
+      });
+    });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+
+    animationController.dispose();
   }
 
   @override
@@ -67,31 +78,34 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
             body: PageView(
               controller: PageController(),
               children: [
-                // GestureDetector(
-                //   onDoubleTap: () {
-                //     setState(() {
-                //       showHeart = true;
-                //     });
-                //   },
-                //   child: Stack(
-                //     fit: StackFit.expand,
-                //     alignment: Alignment.center,
-                //     children: [
-                //       Center(
-                //         child: HeartAnimation(),
-                //       ),
-                //       // Image.network(
-                //       //   "https://images.unsplash.com/photo-1614886750264-afed539cf2bb?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=334&q=80",
-                //       //   fit: BoxFit.cover,
-                //       // ),
-                //     ],
-                //   ),
-                // ),
-                Lottie.asset(
-                  "assets/lottiefiles/heart.json",
-                  controller: animationController,
-                  repeat: false,
-                  frameRate: FrameRate.max,
+                GestureDetector(
+                  child: Stack(
+                    fit: StackFit.expand,
+                    alignment: Alignment.center,
+                    children: [
+                      Image.network(
+                        "https://images.unsplash.com/photo-1614886750264-afed539cf2bb?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=334&q=80",
+                        fit: BoxFit.cover,
+                      ),
+                      showHeart
+                          ? Lottie.asset(
+                              "assets/lottiefiles/heart.json",
+                              controller: animationController,
+                              onLoaded: (composition) {
+                                animationController
+                                  ..duration = composition.duration
+                                  ..value = composition.startFrame
+                                  ..forward();
+                              },
+                            )
+                          : Container(),
+                    ],
+                  ),
+                  onDoubleTap: () {
+                    setState(() {
+                      showHeart = true;
+                    });
+                  },
                 ),
                 Image.network(
                   "https://images.unsplash.com/photo-1614945083613-7763b4897841?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=334&q=80",
