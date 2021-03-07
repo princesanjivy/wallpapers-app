@@ -8,12 +8,14 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> with TickerProviderStateMixin {
-  bool showHeart = false;
+  bool showHeart;
   AnimationController animationController;
 
   @override
   void initState() {
     super.initState();
+
+    showHeart = false;
 
     animationController = AnimationController(vsync: this);
     animationController.addListener(() {
