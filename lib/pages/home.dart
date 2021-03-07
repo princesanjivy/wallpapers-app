@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hidden_drawer_menu/hidden_drawer_menu.dart';
+import 'package:lottie/lottie.dart';
+import 'package:wallpapers/components/show_heart.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -7,6 +9,8 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  bool showHeart = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -57,13 +61,25 @@ class _HomeState extends State<Home> {
               children: [
                 GestureDetector(
                   onDoubleTap: () {
-                    print("Liked");
+                    setState(() {
+                      showHeart = true;
+                    });
                   },
-                  child: Image.network(
-                    "https://images.unsplash.com/photo-1614886750264-afed539cf2bb?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=334&q=80",
-                    fit: BoxFit.cover,
+                  child: Stack(
+                    fit: StackFit.expand,
+                    alignment: Alignment.center,
+                    children: [
+                      Center(
+                        child: HeartAnimation(),
+                      ),
+                      // Image.network(
+                      //   "https://images.unsplash.com/photo-1614886750264-afed539cf2bb?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=334&q=80",
+                      //   fit: BoxFit.cover,
+                      // ),
+                    ],
                   ),
                 ),
+                Lottie.asset("assets/lottiefiles/hearts.json"),
                 Image.network(
                   "https://images.unsplash.com/photo-1614945083613-7763b4897841?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=334&q=80",
                   fit: BoxFit.cover,
