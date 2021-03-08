@@ -63,7 +63,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
             extendBodyBehindAppBar: true,
             appBar: AppBar(
               // elevation: 0,
-              // backgroundColor: Colors.transparent,
+              backgroundColor: Colors.pink,
               leading: InkWell(
                 child: Icon(
                   Icons.menu,
@@ -76,6 +76,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
             ),
             body: PageView.builder(
               controller: PageController(),
+              pageSnapping: true,
               itemCount: images.length,
               itemBuilder: (context, index) {
                 return GestureDetector(
