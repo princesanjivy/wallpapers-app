@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:hidden_drawer_menu/hidden_drawer_menu.dart';
-import 'package:lottie/lottie.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -9,27 +8,25 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> with TickerProviderStateMixin {
   bool showHeart;
-  AnimationController animationController;
+
+  List images = [
+    "https://images.unsplash.com/photo-1614886750264-afed539cf2bb?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=334&q=80",
+    "https://images.unsplash.com/photo-1614945083613-7763b4897841?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=334&q=80",
+    "https://images.unsplash.com/photo-1614788404413-ca65466f81f8?ixid=MXwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHwyMnx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60",
+  ];
 
   @override
   void initState() {
     super.initState();
 
     showHeart = false;
-
-    animationController = AnimationController(vsync: this);
-    animationController.addListener(() {
-      setState(() {
-        if (animationController.isCompleted) showHeart = false;
-      });
-    });
   }
 
   @override
   void dispose() {
     super.dispose();
 
-    animationController.dispose();
+    // animationController.dispose();
   }
 
   @override
@@ -77,47 +74,26 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                 },
               ),
             ),
-            body: PageView(
+            body: PageView.builder(
               controller: PageController(),
-              children: [
-                GestureDetector(
+              itemCount: images.length,
+              itemBuilder: (context, index) {
+                return GestureDetector(
                   child: Stack(
                     fit: StackFit.expand,
                     alignment: Alignment.center,
                     children: [
                       Image.network(
-                        "https://images.unsplash.com/photo-1614886750264-afed539cf2bb?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=334&q=80",
+                        images[index],
                         fit: BoxFit.cover,
                       ),
-                      showHeart
-                          ? Lottie.asset(
-                              "assets/lottiefiles/heart.json",
-                              controller: animationController,
-                              onLoaded: (composition) {
-                                animationController
-                                  ..duration = composition.duration
-                                  ..value = composition.startFrame
-                                  ..forward();
-                              },
-                            )
-                          : Container(),
                     ],
                   ),
                   onDoubleTap: () {
-                    setState(() {
-                      showHeart = true;
-                    });
+                    print(index.toString());
                   },
-                ),
-                Image.network(
-                  "https://images.unsplash.com/photo-1614945083613-7763b4897841?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=334&q=80",
-                  fit: BoxFit.cover,
-                ),
-                Image.network(
-                  "https://images.unsplash.com/photo-1614788404413-ca65466f81f8?ixid=MXwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHwyMnx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60",
-                  fit: BoxFit.cover,
-                ),
-              ],
+                );
+              },
             ),
           );
         },
