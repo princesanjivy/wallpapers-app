@@ -108,7 +108,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                 Visibility(
                   visible: showHeart,
                   child: Lottie.asset(
-                    "assets/lottiefiles/heart.json",
+                    "assets/lottiefiles/like.json",
                     controller: animationController,
                     repeat: false,
                     onLoaded: (composition) {
