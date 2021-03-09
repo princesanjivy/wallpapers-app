@@ -70,8 +70,8 @@ class _HomeState extends State<Home> {
           return Scaffold(
             extendBodyBehindAppBar: true,
             appBar: AppBar(
-              // elevation: 0,
-              backgroundColor: Colors.pink,
+              elevation: 0,
+              backgroundColor: Colors.transparent,
               leading: InkWell(
                 child: Icon(
                   Icons.menu,
@@ -98,17 +98,9 @@ class _HomeState extends State<Home> {
                 //     });
                 //   },
                 // );
-                return GestureDetector(
-                  child: ImagePreview(
-                    showHeart: showHeart,
-                    imageUrl: images[index],
-                  ),
-                  onDoubleTap: () {
-                    print(index);
-                    setState(() {
-                      showHeart = true;
-                    });
-                  },
+                return ImagePreview(
+                  // showHeart: showHeart,
+                  imageUrl: images[index],
                 );
               },
             ),

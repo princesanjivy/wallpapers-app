@@ -4,11 +4,11 @@ import 'package:lottie/lottie.dart';
 
 class ImagePreview extends StatefulWidget {
   final String imageUrl;
-  final bool showHeart;
+  // final bool showHeart;
 
   ImagePreview({
     this.imageUrl,
-    this.showHeart,
+    // this.showHeart,
   });
 
   @override
@@ -23,8 +23,8 @@ class _ImagePreviewState extends State<ImagePreview>
   @override
   void initState() {
     super.initState();
-    print("hello");
-    print(widget.showHeart);
+    // print("hello");
+    // print(widget.showHeart);
 
     showHeart = false;
 
@@ -45,35 +45,43 @@ class _ImagePreviewState extends State<ImagePreview>
 
   @override
   Widget build(BuildContext context) {
-    print("INSIDE BUILD:" + widget.showHeart.toString());
-    return Stack(
-      fit: StackFit.expand,
-      children: [
-        CachedNetworkImage(
-          imageUrl: widget.imageUrl,
-          fit: BoxFit.cover,
-          progressIndicatorBuilder: (context, url, progress) => Center(
-            child: CircularProgressIndicator(
-              value: progress.progress,
+    // print("INSIDE BUILD: ${widget.showHeart}");
+    return GestureDetector(
+      onDoubleTap: () {
+        print(widget.imageUrl);
+        setState(() {
+          showHeart = true;
+        });
+      },
+      child: Stack(
+        fit: StackFit.expand,
+        children: [
+          CachedNetworkImage(
+            imageUrl: widget.imageUrl,
+            fit: BoxFit.cover,
+            progressIndicatorBuilder: (context, url, progress) => Center(
+              child: CircularProgressIndicator(
+                value: progress.progress,
+              ),
             ),
           ),
-        ),
-        Visibility(
-          visible: widget.showHeart ? showHeart : false,
-          // visible: true,
-          child: Lottie.asset(
-            "assets/lottiefiles/like.json",
-            controller: animationController,
-            repeat: false,
-            onLoaded: (composition) {
-              animationController
-                ..duration = composition.duration
-                ..value = composition.startFrame
-                ..forward();
-            },
+          Visibility(
+            visible: showHeart,
+            // visible: true,
+            child: Lottie.asset(
+              "assets/lottiefiles/like.json",
+              controller: animationController,
+              repeat: false,
+              onLoaded: (composition) {
+                animationController
+                  ..duration = composition.duration
+                  ..value = composition.startFrame
+                  ..forward();
+              },
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }
