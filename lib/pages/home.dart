@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:hidden_drawer_menu/hidden_drawer_menu.dart';
-import 'package:lottie/lottie.dart';
+import 'package:wallpapers/components/image_preview.dart';
 
 class Home extends StatefulWidget {
   @override
   _HomeState createState() => _HomeState();
 }
 
-class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
+class _HomeState extends State<Home> {
   bool showHeart;
-  AnimationController animationController;
+  // AnimationController animationController;
 
   List images = [
     "https://i.ibb.co/WVf4KHN/IMG-20210306-223230-520.jpg",
@@ -22,19 +22,19 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
 
     showHeart = false;
 
-    animationController = AnimationController(vsync: this);
-    animationController.addListener(() {
-      setState(() {
-        if (animationController.isCompleted) showHeart = false;
-      });
-    });
+    // animationController = AnimationController(vsync: this);
+    // animationController.addListener(() {
+    //   setState(() {
+    //     if (animationController.isCompleted) showHeart = false;
+    //   });
+    // });
   }
 
   @override
   void dispose() {
     super.dispose();
 
-    animationController.dispose();
+    // animationController.dispose();
   }
 
   @override
@@ -82,43 +82,35 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                 },
               ),
             ),
-            body: Stack(
-              fit: StackFit.expand,
-              alignment: Alignment.center,
-              children: [
-                PageView.builder(
-                  controller: PageController(),
-                  pageSnapping: true,
-                  itemCount: images.length,
-                  itemBuilder: (context, index) {
-                    return GestureDetector(
-                      child: Image.network(
-                        images[index],
-                        fit: BoxFit.cover,
-                      ),
-                      onDoubleTap: () {
-                        setState(() {
-                          showHeart = true;
-                        });
-                      },
-                    );
-                  },
-                ),
-                Visibility(
-                  visible: showHeart,
-                  child: Lottie.asset(
-                    "assets/lottiefiles/like.json",
-                    controller: animationController,
-                    repeat: false,
-                    onLoaded: (composition) {
-                      animationController
-                        ..duration = composition.duration
-                        ..value = composition.startFrame
-                        ..forward();
-                    },
+            body: PageView.builder(
+              controller: PageController(),
+              pageSnapping: true,
+              itemCount: images.length,
+              itemBuilder: (context, index) {
+                // return GestureDetector(
+                //   child: Image.network(
+                //     images[index],
+                //     fit: BoxFit.cover,
+                //   ),
+                //   onDoubleTap: () {
+                //     setState(() {
+                //       showHeart = true;
+                //     });
+                //   },
+                // );
+                return GestureDetector(
+                  child: ImagePreview(
+                    showHeart: showHeart,
+                    imageUrl: images[index],
                   ),
-                ),
-              ],
+                  onDoubleTap: () {
+                    print(index);
+                    setState(() {
+                      showHeart = true;
+                    });
+                  },
+                );
+              },
             ),
           );
         },
