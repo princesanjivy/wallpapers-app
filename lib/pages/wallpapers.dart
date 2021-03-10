@@ -11,7 +11,6 @@ class WallpapersPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return PageView.builder(
-      controller: PageController(),
       pageSnapping: true,
       itemCount: images.length,
       itemBuilder: (context, index) {

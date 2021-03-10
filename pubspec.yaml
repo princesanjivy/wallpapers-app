@@ -17,6 +17,7 @@ dependencies:
   lottie:
   cached_network_image: ^2.5.1
   shared_preferences: ^2.0.4
+  gesture_zoom_box: ^0.0.3
 
 flutter:
   uses-material-design: true
