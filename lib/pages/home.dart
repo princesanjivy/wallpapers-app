@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hidden_drawer_menu/hidden_drawer_menu.dart';
-import 'package:wallpapers/components/image_preview.dart';
+import 'package:wallpapers/components/menu.dart';
+import 'package:wallpapers/pages/wallpapers.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -12,8 +13,8 @@ class _HomeState extends State<Home> {
   // AnimationController animationController;
 
   List images = [
-    "https://i.ibb.co/WVf4KHN/IMG-20210306-223230-520.jpg",
-    "https://i.ibb.co/ZKGFx26/IMG-20210306-223253-574.jpg",
+    "https://images.unsplash.com/photo-1614934688741-9264558f3b56?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=334&q=80",
+    "https://images.unsplash.com/photo-1612487528552-afee375003d8?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=1080&fit=max",
   ];
 
   @override
@@ -40,33 +41,22 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.pink,
+      backgroundColor: Colors.white,
       body: SimpleHiddenDrawer(
         contentCornerRadius: 30,
         slidePercent: 60,
-        menu: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            TextButton(
-              child: Text("Settings"),
-              onPressed: () {},
-            ),
-            TextButton(
-              child: Text("Rate & Review"),
-              onPressed: () {},
-            ),
-            TextButton(
-              child: Text("Credits"),
-              onPressed: () {},
-            ),
-            TextButton(
-              child: Text("About"),
-              onPressed: () {},
-            ),
-          ],
-        ),
+        menu: DrawerMenu(),
         screenSelectedBuilder: (position, controller) {
+          Widget body;
+
+          switch (position) {
+            case 0:
+              body = WallpapersPage(images: images);
+              break;
+            case 1:
+              body = Center(child: Text("Hello"));
+              break;
+          }
           return Scaffold(
             extendBodyBehindAppBar: true,
             appBar: AppBar(
@@ -75,35 +65,14 @@ class _HomeState extends State<Home> {
               leading: InkWell(
                 child: Icon(
                   Icons.menu,
-                  color: Colors.white,
+                  color: Colors.black87,
                 ),
                 onTap: () {
                   controller.toggle();
                 },
               ),
             ),
-            body: PageView.builder(
-              controller: PageController(),
-              pageSnapping: true,
-              itemCount: images.length,
-              itemBuilder: (context, index) {
-                // return GestureDetector(
-                //   child: Image.network(
-                //     images[index],
-                //     fit: BoxFit.cover,
-                //   ),
-                //   onDoubleTap: () {
-                //     setState(() {
-                //       showHeart = true;
-                //     });
-                //   },
-                // );
-                return ImagePreview(
-                  // showHeart: showHeart,
-                  imageUrl: images[index],
-                );
-              },
-            ),
+            body: body,
           );
         },
       ),

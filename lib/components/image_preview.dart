@@ -1,6 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:wallpapers/constants.dart';
 
 class ImagePreview extends StatefulWidget {
   final String imageUrl;
@@ -47,11 +49,24 @@ class _ImagePreviewState extends State<ImagePreview>
   Widget build(BuildContext context) {
     // print("INSIDE BUILD: ${widget.showHeart}");
     return GestureDetector(
-      onDoubleTap: () {
+      onDoubleTap: () async {
         print(widget.imageUrl);
         setState(() {
           showHeart = true;
         });
+
+        SharedPreferences sharedPreferences =
+            await SharedPreferences.getInstance();
+
+        if (sharedPreferences.getStringList(SHARED_PREF_KEY).isEmpty){
+          await sharedPreferences.setStringList(SHARED_PREF_KEY, [widget.imageUrl]);
+        }
+          else{
+            List<String> temp = sharedPreferences.getStringList(SHARED_PREF_KEY);
+            temp.add(widget.imageUrl);
+
+            await sharedPreferences.setStringList(SHARED_PREF_KEY, temp);
+        }
       },
       child: Stack(
         fit: StackFit.expand,
