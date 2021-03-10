@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:hidden_drawer_menu/hidden_drawer_menu.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wallpapers/components/menu.dart';
+import 'package:wallpapers/pages/favorites.dart';
 import 'package:wallpapers/pages/wallpapers.dart';
 
 class Home extends StatefulWidget {
@@ -15,6 +17,7 @@ class _HomeState extends State<Home> {
   List images = [
     "https://images.unsplash.com/photo-1614934688741-9264558f3b56?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=334&q=80",
     "https://images.unsplash.com/photo-1612487528552-afee375003d8?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=1080&fit=max",
+    "https://images.unsplash.com/photo-1614934688741-9264558f3b56?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=334&q=80",
   ];
 
   @override
@@ -54,7 +57,18 @@ class _HomeState extends State<Home> {
               body = WallpapersPage(images: images);
               break;
             case 1:
-              body = Center(child: Text("Hello"));
+              body = Center(
+                  child: ElevatedButton(
+                child: Text("Clear Prefs"),
+                onPressed: () async {
+                  SharedPreferences sharedPreferences =
+                      await SharedPreferences.getInstance();
+                  sharedPreferences.clear();
+                },
+              ));
+              break;
+            case 2:
+              body = Favorites();
               break;
           }
           return Scaffold(

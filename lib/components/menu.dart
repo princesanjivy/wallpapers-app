@@ -33,10 +33,12 @@ class _DrawerMenuState extends State<DrawerMenu> {
             hiddenDrawerController.setSelectedMenuPosition(1);
           },
         ),
-        // TextButton(
-        //   child: Text("Credits"),
-        //   onPressed: () {},
-        // ),
+        TextButton(
+          child: Text("Credits"),
+          onPressed: () {
+            hiddenDrawerController.setSelectedMenuPosition(2);
+          },
+        ),
         // TextButton(
         //   child: Text("About"),
         //   onPressed: () {},
