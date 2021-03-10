@@ -58,14 +58,14 @@ class _ImagePreviewState extends State<ImagePreview>
         SharedPreferences sharedPreferences =
             await SharedPreferences.getInstance();
 
-        if (sharedPreferences.getStringList(SHARED_PREF_KEY).isEmpty){
-          await sharedPreferences.setStringList(SHARED_PREF_KEY, [widget.imageUrl]);
-        }
-          else{
-            List<String> temp = sharedPreferences.getStringList(SHARED_PREF_KEY);
-            temp.add(widget.imageUrl);
+        if (sharedPreferences.getStringList(SHARED_PREF_KEY).isEmpty) {
+          await sharedPreferences
+              .setStringList(SHARED_PREF_KEY, [widget.imageUrl]);
+        } else {
+          List<String> temp = sharedPreferences.getStringList(SHARED_PREF_KEY);
+          temp.add(widget.imageUrl);
 
-            await sharedPreferences.setStringList(SHARED_PREF_KEY, temp);
+          await sharedPreferences.setStringList(SHARED_PREF_KEY, temp);
         }
       },
       child: Stack(
