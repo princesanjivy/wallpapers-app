@@ -7,6 +7,14 @@ class DrawerMenu extends StatefulWidget {
 }
 
 class _DrawerMenuState extends State<DrawerMenu> {
+  List items = [
+    "Wallpapers",
+    "Favorites",
+    "Rate & Review",
+    "Settings",
+    "About"
+  ];
+
   SimpleHiddenDrawerController hiddenDrawerController;
 
   @override
@@ -21,28 +29,13 @@ class _DrawerMenuState extends State<DrawerMenu> {
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        TextButton(
-          child: Text("Wallpapers"),
-          onPressed: () {
-            hiddenDrawerController.setSelectedMenuPosition(0);
-          },
-        ),
-        TextButton(
-          child: Text("Rate & Review"),
-          onPressed: () {
-            hiddenDrawerController.setSelectedMenuPosition(1);
-          },
-        ),
-        TextButton(
-          child: Text("Credits"),
-          onPressed: () {
-            hiddenDrawerController.setSelectedMenuPosition(2);
-          },
-        ),
-        // TextButton(
-        //   child: Text("About"),
-        //   onPressed: () {},
-        // ),
+        for (var i = 0; i < items.length; i++)
+          TextButton(
+            child: Text(items[i]),
+            onPressed: () {
+              hiddenDrawerController.setSelectedMenuPosition(i);
+            },
+          ),
       ],
     );
   }

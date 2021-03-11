@@ -16,7 +16,7 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: ThemeData(
-        textTheme: GoogleFonts.poppinsTextTheme(
+        textTheme: GoogleFonts.tenorSansTextTheme(
           Theme.of(context).textTheme,
         ),
       ),

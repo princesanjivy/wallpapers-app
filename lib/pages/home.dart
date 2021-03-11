@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:hidden_drawer_menu/hidden_drawer_menu.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wallpapers/components/menu.dart';
 import 'package:wallpapers/pages/favorites.dart';
+import 'package:wallpapers/pages/settings.dart';
 import 'package:wallpapers/pages/wallpapers.dart';
 
 class Home extends StatefulWidget {
@@ -70,6 +72,9 @@ class _HomeState extends State<Home> {
             case 2:
               body = Favorites();
               break;
+            case 3:
+              body = SettingsPage();
+              break;
           }
           return Scaffold(
             extendBodyBehindAppBar: true,
@@ -84,6 +89,19 @@ class _HomeState extends State<Home> {
                 onTap: () {
                   controller.toggle();
                 },
+              ),
+              title: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Text(
+                    "About",
+                    style: GoogleFonts.sofia(
+                      color: Colors.black,
+                      fontSize: 28,
+                      fontWeight: FontWeight.w800,
+                    ),
+                  ),
+                ],
               ),
             ),
             body: body,
