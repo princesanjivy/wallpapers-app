@@ -18,9 +18,13 @@ dependencies:
   cached_network_image: ^2.5.1
   shared_preferences: ^2.0.4
   gesture_zoom_box: ^0.0.3
+  flutter_svg:
+  flutter_staggered_grid_view:
+  url_launcher:
 
 flutter:
   uses-material-design: true
 
   assets:
     - assets/lottiefiles/
+    - assets/svg/

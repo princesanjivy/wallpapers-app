@@ -39,7 +39,9 @@ class _DrawerMenuState extends State<DrawerMenu> {
               ),
             ),
             onPressed: () {
-              hiddenDrawerController.setSelectedMenuPosition(i);
+              i != 2
+                  ? hiddenDrawerController.setSelectedMenuPosition(i)
+                  : print("launch");
             },
           ),
       ],

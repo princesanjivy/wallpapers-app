@@ -1,10 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:wallpapers/components/my_text.dart';
 import 'package:wallpapers/constants.dart';
 
-class Favorites extends StatelessWidget {
+class Favorites extends StatefulWidget {
+  @override
+  _FavoritesState createState() => _FavoritesState();
+}
+
+class _FavoritesState extends State<Favorites> {
   Future<List<String>> getFavoriteImages() async {
-    print("hello");
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     if (sharedPreferences.getStringList(SHARED_PREF_KEY) == null)
       return [];
@@ -15,28 +21,29 @@ class Favorites extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<List<String>>(
-        future: getFavoriteImages(),
-        builder: (context, snapshot) {
-          print("bye1");
-          if (!snapshot.hasData)
-            return Center(child: CircularProgressIndicator());
-          print("bye");
-          return Center(
-            child: GridView.builder(
-              padding: EdgeInsets.all(10),
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                childAspectRatio: 9 / 16,
-                crossAxisCount: 2,
+      future: getFavoriteImages(),
+      builder: (context, snapshot) {
+        if (!snapshot.hasData)
+          return Center(child: CircularProgressIndicator());
+
+        return snapshot.data.length == 0
+            ? Center(child: ContentText("Nothing to show"))
+            : StaggeredGridView.countBuilder(
+                padding: EdgeInsets.all(8),
+                crossAxisCount: 4,
+                itemCount: snapshot.data.length,
+                itemBuilder: (BuildContext context, int index) => ClipRRect(
+                  borderRadius: BorderRadius.circular(22),
+                  child: Image.network(
+                    snapshot.data[index].toString(),
+                    fit: BoxFit.cover,
+                  ),
+                ),
+                staggeredTileBuilder: (int index) => StaggeredTile.fit(2),
                 mainAxisSpacing: 10,
                 crossAxisSpacing: 10,
-              ),
-              itemCount: snapshot.data.length,
-              itemBuilder: (context, index) => Image.network(
-                snapshot.data[index].toString(),
-                fit: BoxFit.cover,
-              ),
-            ),
-          );
-        });
+              );
+      },
+    );
   }
 }

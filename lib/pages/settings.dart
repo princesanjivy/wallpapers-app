@@ -17,20 +17,7 @@ class _SettingsPageState extends State<SettingsPage> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        VerticalSpacer(32),
-        // Row(
-        //   mainAxisAlignment: MainAxisAlignment.end,
-        //   children: [
-        //     Text(
-        //       "Settings",
-        //       style: TextStyle(
-        //         fontSize: 28,
-        //         fontWeight: FontWeight.w800,
-        //       ),
-        //     ),
-        //   ],
-        // ),
-        VerticalSpacer(50),
+        VerticalSpacer(80),
         HeadingText("Auto change new wallpaper"),
         Switch(
           value: _changeWallpaper,
