@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hidden_drawer_menu/controllers/simple_hidden_drawer_controller.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class DrawerMenu extends StatefulWidget {
   @override
@@ -38,10 +39,15 @@ class _DrawerMenuState extends State<DrawerMenu> {
                 fontWeight: FontWeight.bold,
               ),
             ),
-            onPressed: () {
-              i != 2
-                  ? hiddenDrawerController.setSelectedMenuPosition(i)
-                  : print("launch");
+            onPressed: () async {
+              if (i != 2) {
+                hiddenDrawerController.setSelectedMenuPosition(i);
+              } else {
+                await launch(
+                  "https://play.google.com/store/apps/dev?id=6439925551269057866",
+                );
+                hiddenDrawerController.close();
+              }
             },
           ),
       ],
