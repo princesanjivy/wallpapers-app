@@ -31,7 +31,13 @@ class _DrawerMenuState extends State<DrawerMenu> {
       children: [
         for (var i = 0; i < items.length; i++)
           TextButton(
-            child: Text(items[i]),
+            child: Text(
+              items[i],
+              style: TextStyle(
+                fontSize: 15.6,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
             onPressed: () {
               hiddenDrawerController.setSelectedMenuPosition(i);
             },

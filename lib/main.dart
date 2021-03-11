@@ -15,9 +15,17 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
+        accentColor: Colors.black,
         textTheme: GoogleFonts.tenorSansTextTheme(
           Theme.of(context).textTheme,
+        ),
+        textButtonTheme: TextButtonThemeData(
+          style: ButtonStyle(
+            foregroundColor: MaterialStateProperty.all<Color>(Colors.black),
+            overlayColor: MaterialStateProperty.all<Color>(Colors.black12),
+          ),
         ),
       ),
       home: Home(),
