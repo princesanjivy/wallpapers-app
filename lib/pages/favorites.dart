@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:wallpapers/components/fullscreen_view.dart';
 import 'package:wallpapers/components/my_text.dart';
 import 'package:wallpapers/constants.dart';
 
@@ -29,15 +30,30 @@ class _FavoritesState extends State<Favorites> {
         return snapshot.data.length == 0
             ? Center(child: ContentText("Nothing to show"))
             : StaggeredGridView.countBuilder(
-                padding: EdgeInsets.all(8),
+                padding: EdgeInsets.all(12),
                 crossAxisCount: 4,
                 itemCount: snapshot.data.length,
-                itemBuilder: (BuildContext context, int index) => ClipRRect(
-                  borderRadius: BorderRadius.circular(22),
-                  child: Image.network(
-                    snapshot.data[index].toString(),
-                    fit: BoxFit.cover,
+                itemBuilder: (BuildContext context, int index) =>
+                    GestureDetector(
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(22),
+                    child: Image.network(
+                      snapshot.data[index].toString(),
+                      fit: BoxFit.cover,
+                    ),
                   ),
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => FullScreenView(
+                          child: Image.network(
+                            snapshot.data[index].toString(),
+                          ),
+                        ),
+                      ),
+                    );
+                  },
                 ),
                 staggeredTileBuilder: (int index) => StaggeredTile.fit(2),
                 mainAxisSpacing: 10,

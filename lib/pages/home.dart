@@ -14,43 +14,14 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  bool showHeart;
-  // AnimationController animationController;
-
   List images = [
-    "https://images.unsplash.com/photo-1614934688741-9264558f3b56?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=334&q=80",
-    "https://images.unsplash.com/photo-1612487528552-afee375003d8?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=1080&fit=max",
-    "https://images.unsplash.com/photo-1614934688741-9264558f3b56?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=334&q=80",
+    "https://images.unsplash.com/photo-1610609626939-f128da9a7d95?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=334&q=80",
+    "https://images.unsplash.com/photo-1610507121055-429412085fba?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxwaG90by1yZWxhdGVkfDF8fHxlbnwwfHx8&auto=format&fit=crop&w=500&q=60",
+    "https://images.unsplash.com/photo-1610609626993-58a8929bf3e7?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&auto=format&fit=crop&w=334&q=80",
+    "https://images.unsplash.com/photo-1555980021-02eb1d774f8e?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&auto=format&fit=crop&w=337&q=80",
   ];
 
-  List menuItemsName = [
-    "Wallpapers",
-    "Favorites",
-    "Rate & Review",
-    "Settings",
-    "About"
-  ];
-
-  @override
-  void initState() {
-    super.initState();
-
-    showHeart = false;
-
-    // animationController = AnimationController(vsync: this);
-    // animationController.addListener(() {
-    //   setState(() {
-    //     if (animationController.isCompleted) showHeart = false;
-    //   });
-    // });
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-
-    // animationController.dispose();
-  }
+  List menuItemsName = ["", "Favorites", "Rate & Review", "Settings", "About"];
 
   @override
   Widget build(BuildContext context) {
@@ -86,15 +57,18 @@ class _HomeState extends State<Home> {
               break;
           }
           return Scaffold(
-            extendBodyBehindAppBar: true,
+            extendBodyBehindAppBar: position == 0 ? true : false,
             appBar: AppBar(
               elevation: 0,
               backgroundColor: Colors.transparent,
               leading: Padding(
-                padding: EdgeInsets.all(8),
+                padding: EdgeInsets.all(12),
                 child: InkWell(
                   child: SvgPicture.asset(
                     "assets/svg/menu.svg",
+                    width: 28,
+                    height: 28,
+                    color: position == 0 ? Colors.white : Colors.black,
                   ),
                   onTap: () {
                     controller.toggle();
