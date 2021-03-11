@@ -5,6 +5,7 @@ import 'package:lottie/lottie.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wallpaper_manager/wallpaper_manager.dart';
 import 'package:wallpapers/components/bottom_panel.dart';
+import 'package:wallpapers/components/my_spacer.dart';
 import 'package:wallpapers/components/my_text.dart';
 import 'package:wallpapers/constants.dart';
 
@@ -83,17 +84,23 @@ class _ImagePreviewState extends State<ImagePreview>
               CachedNetworkImage(
                 imageUrl: widget.imageUrl,
                 fit: BoxFit.cover,
-                progressIndicatorBuilder: (context, url, progress) => Center(
-                  child: CircularProgressIndicator(
-                    value: progress.progress,
-                  ),
+                progressIndicatorBuilder: (context, url, progress) => Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    ContentText("Loading wallpaper"),
+                    VerticalSpacer(12),
+                    CircularProgressIndicator(
+                      value: progress.progress,
+                    ),
+                  ],
                 ),
               ),
               Visibility(
                 visible: showHeart,
                 // visible: true,
                 child: Lottie.asset(
-                  "assets/lottiefiles/like.json",
+                  "assets/lottiefiles/heart.json",
                   controller: animationController,
                   repeat: false,
                   onLoaded: (composition) {
