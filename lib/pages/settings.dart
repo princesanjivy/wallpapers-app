@@ -9,8 +9,10 @@ class SettingsPage extends StatefulWidget {
 
 class _SettingsPageState extends State<SettingsPage> {
   bool _changeWallpaper = true,
-      _saveLikedWallpaper = false,
-      _applyForBoth = false;
+      _saveLikedWallpaper = true,
+      _saveToDevice = false,
+      _applyForBoth = false,
+      _removeAds = false;
 
   @override
   Widget build(BuildContext context) {
@@ -40,12 +42,32 @@ class _SettingsPageState extends State<SettingsPage> {
             },
           ),
           VerticalSpacer(16),
+          HeadingText("Save wallpapers to device"),
+          Switch(
+            value: _saveToDevice,
+            onChanged: (onChanged) {
+              setState(() {
+                _saveToDevice = !_saveToDevice;
+              });
+            },
+          ),
+          VerticalSpacer(16),
           HeadingText("Apply wallpaper to both HomeScreen and LockScreen"),
           Switch(
             value: _applyForBoth,
             onChanged: (onChanged) {
               setState(() {
                 _applyForBoth = !_applyForBoth;
+              });
+            },
+          ),
+          VerticalSpacer(16),
+          HeadingText("Remove ads"),
+          Switch(
+            value: _removeAds,
+            onChanged: (onChanged) {
+              setState(() {
+                _removeAds = !_removeAds;
               });
             },
           ),

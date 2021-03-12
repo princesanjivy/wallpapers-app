@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:lottie/lottie.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:toast/toast.dart';
 import 'package:wallpaper_manager/wallpaper_manager.dart';
 import 'package:wallpapers/components/bottom_panel.dart';
 import 'package:wallpapers/components/my_spacer.dart';
@@ -137,13 +138,27 @@ class _ImagePreviewState extends State<ImagePreview>
             final String result = await WallpaperManager.setWallpaperFromFile(
                 file.path, location);
             print(result);
+            if (result == "Wallpaper set") {
+              Navigator.pop(context);
 
-            Navigator.pop(context);
-            // ScaffoldMessenger.of(context).showSnackBar(
-            //   SnackBar(
-            //     content: ContentText("Wallpaper applied successfully"),
-            //   ),
-            // );
+              Toast.show(
+                "Wallpaper applied successfully",
+                context,
+                duration: Toast.LENGTH_LONG,
+                gravity: Toast.CENTER,
+                backgroundColor: Colors.white70,
+                textColor: Colors.black,
+              );
+            } else {
+              Toast.show(
+                "Some error occurred",
+                context,
+                duration: Toast.LENGTH_LONG,
+                gravity: Toast.CENTER,
+                backgroundColor: Colors.white70,
+                textColor: Colors.black,
+              );
+            }
           },
           save: () async {
             print(widget.imageUrl);
