@@ -101,7 +101,7 @@ class _ImagePreviewState extends State<ImagePreview>
                 visible: showHeart,
                 // visible: true,
                 child: Lottie.asset(
-                  "assets/lottiefiles/heat2.json",
+                  "assets/lottiefiles/heart.json",
                   controller: animationController,
                   repeat: false,
                   onLoaded: (composition) {
