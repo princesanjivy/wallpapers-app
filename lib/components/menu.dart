@@ -35,7 +35,7 @@ class _DrawerMenuState extends State<DrawerMenu> {
         Padding(
           padding: EdgeInsets.all(12),
           child: Image.asset(
-            "assets/images/logo.jpg",
+            "assets/images/logo.png",
             fit: BoxFit.contain,
             width: 120,
             height: 120,
