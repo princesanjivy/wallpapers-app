@@ -34,6 +34,9 @@
 # Web related
 lib/generated_plugin_registrant.dart
 
+# constants
+lib/constants.dart
+
 # Symbolication related
 app.*.symbols
 
@@ -50,4 +53,3 @@ app.*.map.json
 /ios
 /web
 
-/lib/constants.dart
