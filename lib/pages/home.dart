@@ -15,13 +15,20 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   List images = [
+    "https://i.ibb.co/xgYzJYk/IMG-20210306-223056-403.jpg",
     "https://images.unsplash.com/photo-1610609626939-f128da9a7d95?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=334&q=80",
     "https://images.unsplash.com/photo-1610507121055-429412085fba?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxwaG90by1yZWxhdGVkfDF8fHxlbnwwfHx8&auto=format&fit=crop&w=500&q=60",
     "https://images.unsplash.com/photo-1610609626993-58a8929bf3e7?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&auto=format&fit=crop&w=334&q=80",
     "https://images.unsplash.com/photo-1555980021-02eb1d774f8e?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&auto=format&fit=crop&w=337&q=80",
   ];
 
-  List menuItemsName = ["", "Favorites", "Rate & Review", "Settings", "About"];
+  List menuItemsName = [
+    "Wallpapers",
+    "Favorites",
+    "Rate & Review",
+    "Settings",
+    "About",
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -81,9 +88,9 @@ class _HomeState extends State<Home> {
                   Text(
                     menuItemsName[position],
                     style: GoogleFonts.sofia(
-                      color: Colors.black,
+                      color: position == 0 ? Colors.white : Colors.black,
                       fontSize: 32,
-                      fontWeight: FontWeight.w800,
+                      fontWeight: FontWeight.w500,
                     ),
                   ),
                 ],
