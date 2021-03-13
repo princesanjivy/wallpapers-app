@@ -22,6 +22,7 @@ dependencies:
   flutter_staggered_grid_view:
   url_launcher:
   toast: ^0.1.5
+  admob_flutter: ^1.0.1
 
 flutter:
   uses-material-design: true
