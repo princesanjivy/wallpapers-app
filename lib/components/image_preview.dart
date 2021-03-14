@@ -5,6 +5,7 @@ import 'package:lottie/lottie.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:toast/toast.dart';
 import 'package:wallpaper_manager/wallpaper_manager.dart';
+import 'package:wallpapers/ads/interstitial_ad.dart';
 import 'package:wallpapers/components/bottom_panel.dart';
 import 'package:wallpapers/components/my_spacer.dart';
 import 'package:wallpapers/components/my_text.dart';
@@ -162,6 +163,8 @@ class _ImagePreviewState extends State<ImagePreview>
           },
           save: () async {
             print(widget.imageUrl);
+
+            ShowAd().show().then((value) => print(value));
           },
         ),
       ],
