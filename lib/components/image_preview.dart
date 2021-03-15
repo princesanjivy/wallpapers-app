@@ -176,7 +176,8 @@ class _ImagePreviewState extends State<ImagePreview>
             await FirebaseFirestore.instance
                 .collection("wallpapers")
                 .get()
-                .then((value) => print(value));
+                .then((value) =>
+                    print("RESULT: " + value.docs.first.data().toString()));
 
             if (await _interstitial.isLoaded) {
               _interstitial.show();
