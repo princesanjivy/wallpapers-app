@@ -1,3 +1,4 @@
+import 'package:admob_flutter/admob_flutter.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
@@ -5,7 +6,6 @@ import 'package:lottie/lottie.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:toast/toast.dart';
 import 'package:wallpaper_manager/wallpaper_manager.dart';
-import 'package:wallpapers/ads/interstitial_ad.dart';
 import 'package:wallpapers/components/bottom_panel.dart';
 import 'package:wallpapers/components/my_spacer.dart';
 import 'package:wallpapers/components/my_text.dart';
@@ -25,8 +25,10 @@ class ImagePreview extends StatefulWidget {
 }
 
 class _ImagePreviewState extends State<ImagePreview>
-    with TickerProviderStateMixin {
+    with SingleTickerProviderStateMixin {
   AnimationController animationController;
+  AdmobInterstitial _interstitial;
+
   bool showHeart;
 
   @override
@@ -43,6 +45,11 @@ class _ImagePreviewState extends State<ImagePreview>
         if (animationController.isCompleted) showHeart = false;
       });
     });
+
+    _interstitial = AdmobInterstitial(
+        adUnitId: "ca-app-pub-3940256099942544/10331"
+            "73712");
+    _interstitial.load();
   }
 
   @override
@@ -50,6 +57,7 @@ class _ImagePreviewState extends State<ImagePreview>
     super.dispose();
 
     animationController.dispose();
+    _interstitial.dispose();
   }
 
   @override
@@ -164,7 +172,12 @@ class _ImagePreviewState extends State<ImagePreview>
           save: () async {
             print(widget.imageUrl);
 
-            ShowAd().show().then((value) => print(value));
+            if (await _interstitial.isLoaded) {
+              _interstitial.show();
+              return "Ad is showing";
+            } else {
+              return "Ad is not loaded!";
+            }
           },
         ),
       ],
