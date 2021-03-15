@@ -23,6 +23,8 @@ dependencies:
   url_launcher:
   toast: ^0.1.5
   admob_flutter: ^1.0.1
+  cloud_firestore: ^1.0.1
+  firebase_core: ^1.0.1
 
 flutter:
   uses-material-design: true

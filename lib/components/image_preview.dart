@@ -1,5 +1,6 @@
 import 'package:admob_flutter/admob_flutter.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:lottie/lottie.dart';
@@ -171,6 +172,11 @@ class _ImagePreviewState extends State<ImagePreview>
           },
           save: () async {
             print(widget.imageUrl);
+
+            await FirebaseFirestore.instance
+                .collection("wallpapers")
+                .get()
+                .then((value) => print(value));
 
             if (await _interstitial.isLoaded) {
               _interstitial.show();
