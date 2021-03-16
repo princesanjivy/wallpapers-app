@@ -13,10 +13,10 @@ class Favorites extends StatefulWidget {
 class _FavoritesState extends State<Favorites> {
   Future<List<String>> getFavoriteImages() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    if (sharedPreferences.getStringList(SHARED_PREF_KEY) == null)
+    if (sharedPreferences.getStringList(KEY_FAVORITES) == null)
       return [];
     else
-      return sharedPreferences.getStringList(SHARED_PREF_KEY);
+      return sharedPreferences.getStringList(KEY_FAVORITES);
   }
 
   @override

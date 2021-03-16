@@ -15,6 +15,11 @@ class _SettingsPageState extends State<SettingsPage> {
       _removeAds = false;
 
   @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.all(12),
