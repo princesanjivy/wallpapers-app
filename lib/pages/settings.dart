@@ -60,6 +60,24 @@ class _SettingsPageState extends State<SettingsPage> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
+                      ElevatedButton(
+                          onPressed: () {
+                            showLicensePage(
+                                context: context,
+                                applicationName: "RealGoodQuote Wallpapers");
+                            // showAboutDialog(
+                            //   context: context,
+                            //   applicationIcon: Center(
+                            //     child: Image.asset(
+                            //       "assets/images/logo.png",
+                            //       width: 80,
+                            //       height: 80,
+                            //     ),
+                            //   ),
+                            //   useRootNavigator: false,
+                            // );
+                          },
+                          child: Text("Click ME")),
                       VerticalSpacer(30),
                       HeadingText("Auto change new wallpaper"),
                       Switch(

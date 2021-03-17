@@ -23,6 +23,7 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
+        primaryColor: Colors.black,
         accentColor: Colors.black,
         textTheme: GoogleFonts.tenorSansTextTheme(
           Theme.of(context).textTheme,
@@ -31,6 +32,20 @@ class _MyAppState extends State<MyApp> {
           style: ButtonStyle(
             foregroundColor: MaterialStateProperty.all<Color>(Colors.black),
             overlayColor: MaterialStateProperty.all<Color>(Colors.black12),
+          ),
+        ),
+        appBarTheme: AppBarTheme(
+          textTheme: GoogleFonts.sofiaTextTheme(
+            Theme.of(context).textTheme.apply(
+                  bodyColor: Colors.white,
+                ),
+          ),
+        ),
+        elevatedButtonTheme: ElevatedButtonThemeData(
+          style: ButtonStyle(
+            overlayColor: MaterialStateProperty.all<Color>(Colors.grey[500]),
+            // foregroundColor: MaterialStateProperty.all<Color>(appbarColor),
+            backgroundColor: MaterialStateProperty.all<Color>(Colors.black),
           ),
         ),
       ),

@@ -69,8 +69,7 @@ class _HomeState extends State<Home> {
 
                     UserCredential userCredential = await FirebaseAuth.instance
                         .signInWithEmailAndPassword(
-                            email: adminEmail,
-                            password: adminPassword);
+                            email: adminEmail, password: adminPassword);
 
                     final pickedFile = await ImagePicker()
                         .getImage(source: ImageSource.gallery);
@@ -139,7 +138,7 @@ class _HomeState extends State<Home> {
                     "assets/svg/menu.svg",
                     width: 28,
                     height: 28,
-                    color: position == 0 ? Colors.black : Colors.black,
+                    color: position == 0 ? Colors.white : Colors.black,
                   ),
                   onTap: () {
                     controller.toggle();
@@ -152,7 +151,7 @@ class _HomeState extends State<Home> {
                   Text(
                     menuItemsName[position],
                     style: GoogleFonts.sofia(
-                      color: position == 0 ? Colors.black : Colors.black,
+                      color: position == 0 ? Colors.white : Colors.black,
                       fontSize: 32,
                       fontWeight: FontWeight.w500,
                     ),
