@@ -1,9 +1,16 @@
+import 'dart:convert';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hidden_drawer_menu/hidden_drawer_menu.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:http/http.dart' as http;
+import 'package:image_picker/image_picker.dart';
 import 'package:wallpapers/components/menu.dart';
+import 'package:wallpapers/components/my_text.dart';
+import 'package:wallpapers/constants.dart';
 import 'package:wallpapers/pages/favorites.dart';
 import 'package:wallpapers/pages/settings.dart';
 import 'package:wallpapers/pages/wallpapers.dart';
@@ -53,14 +60,71 @@ class _HomeState extends State<Home> {
               break;
             case 4:
               body = Center(
-                  child: ElevatedButton(
-                child: Text("Clear Prefs"),
-                onPressed: () async {
-                  SharedPreferences sharedPreferences =
-                      await SharedPreferences.getInstance();
-                  sharedPreferences.clear();
-                },
-              ));
+                child: ElevatedButton(
+                  child: Text("Clear Prefs"),
+                  onPressed: () async {
+                    // SharedPreferences sharedPreferences =
+                    //     await SharedPreferences.getInstance();
+                    // sharedPreferences.clear();
+
+                    UserCredential userCredential = await FirebaseAuth.instance
+                        .signInWithEmailAndPassword(
+                            email: adminEmail,
+                            password: adminPassword);
+
+                    final pickedFile = await ImagePicker()
+                        .getImage(source: ImageSource.gallery);
+
+                    showDialog(
+                      context: context,
+                      barrierDismissible: false,
+                      builder: (context) => SimpleDialog(
+                        title: HeadingText("Please wait"),
+                        children: [
+                          Center(
+                            child: CircularProgressIndicator(),
+                          ),
+                        ],
+                      ),
+                    );
+
+                    await pickedFile.readAsBytes().then((value) async {
+                      var request = http.MultipartRequest(
+                        "POST",
+                        Uri.parse(
+                            "https://api.imgbb.com/1/upload?expiration=600&key=a02671eb5d1fb97fbb43de60da54af7d"),
+                      )..files.add(
+                          http.MultipartFile.fromString(
+                            "image",
+                            Base64Encoder().convert(value),
+                          ),
+                        );
+
+                      var response = await request.send();
+                      response.stream.bytesToString().then(
+                        (value) async {
+                          Map data = jsonDecode(value);
+                          print(data["data"]["id"]);
+                          print(data["data"]["url"]);
+
+                          await FirebaseFirestore.instance
+                              .collection("wallpapers")
+                              .add(
+                            {
+                              "id": data["data"]["id"],
+                              "url": data["data"]["url"],
+                            },
+                          ).then((value) async {
+                            await FirebaseAuth.instance.signOut();
+                          });
+                        },
+                      );
+                    });
+
+                    Navigator.pop(context);
+                  },
+                ),
+              );
               break;
           }
           return Scaffold(
@@ -75,7 +139,7 @@ class _HomeState extends State<Home> {
                     "assets/svg/menu.svg",
                     width: 28,
                     height: 28,
-                    color: position == 0 ? Colors.white : Colors.black,
+                    color: position == 0 ? Colors.black : Colors.black,
                   ),
                   onTap: () {
                     controller.toggle();
@@ -88,7 +152,7 @@ class _HomeState extends State<Home> {
                   Text(
                     menuItemsName[position],
                     style: GoogleFonts.sofia(
-                      color: position == 0 ? Colors.white : Colors.black,
+                      color: position == 0 ? Colors.black : Colors.black,
                       fontSize: 32,
                       fontWeight: FontWeight.w500,
                     ),
