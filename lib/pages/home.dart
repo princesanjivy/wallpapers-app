@@ -43,7 +43,7 @@ class _HomeState extends State<Home> {
 
           switch (position) {
             case 0:
-              body = WallpapersPage(images: images);
+              body = WallpapersPage();
               break;
             case 1:
               body = Favorites();

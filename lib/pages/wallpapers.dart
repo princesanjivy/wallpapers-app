@@ -1,19 +1,17 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:hidden_drawer_menu/controllers/simple_hidden_drawer_controller.dart';
 import 'package:wallpapers/components/image_preview.dart';
+import 'package:wallpapers/helpers/list_shuffle.dart';
 
 class WallpapersPage extends StatefulWidget {
-  final List images;
-
-  WallpapersPage({
-    this.images,
-  });
-
   @override
   _WallpapersPageState createState() => _WallpapersPageState();
 }
 
 class _WallpapersPageState extends State<WallpapersPage> {
+  FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
+
   SimpleHiddenDrawerController hiddenDrawerController;
 
   int _pageIndex;
@@ -45,31 +43,29 @@ class _WallpapersPageState extends State<WallpapersPage> {
           // print("swipe left");
         }
       },
-      child: PageView.builder(
-        pageSnapping: true,
-        itemCount: widget.images.length,
-        onPageChanged: (pageIndex) {
-          // print(pageIndex);
-          _pageIndex = pageIndex;
-        },
-        itemBuilder: (context, index) {
-          // return GestureDetector(
-          //   child: Image.network(
-          //     images[index],
-          //     fit: BoxFit.cover,
-          //   ),
-          //   onDoubleTap: () {
-          //     setState(() {
-          //       showHeart = true;
-          //     });
-          //   },
-          // );
-          return ImagePreview(
-            // showHeart: showHeart,
-            imageUrl: widget.images[index],
-          );
-        },
-      ),
+      child: StreamBuilder<QuerySnapshot>(
+          stream: firebaseFirestore.collection("wallpapers").snapshots(),
+          builder: (context, snapshot) {
+            if (!snapshot.hasData)
+              return Center(child: CircularProgressIndicator());
+
+            return PageView.builder(
+              pageSnapping: true,
+              itemCount: snapshot.data.size,
+              onPageChanged: (pageIndex) {
+                // print(pageIndex);
+                _pageIndex = pageIndex;
+              },
+              itemBuilder: (context, index) {
+                List temp = shuffle(snapshot.data.docs);
+
+                return ImagePreview(
+                  // showHeart: showHeart,
+                  imageUrl: temp[index]["url"],
+                );
+              },
+            );
+          }),
     );
   }
 }
