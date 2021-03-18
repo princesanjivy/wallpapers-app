@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:toast/toast.dart';
 import 'package:wallpapers/components/my_spacer.dart';
 import 'package:wallpapers/components/my_text.dart';
+import 'package:wallpapers/pages/upload_image.dart';
 
 class AdminLogin extends StatefulWidget {
   @override
@@ -34,76 +35,127 @@ class _AdminLoginState extends State<AdminLogin> {
           ],
         ),
       ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          HeadingText("Enter login credentials"),
-          VerticalSpacer(16),
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16),
-            child: TextField(
-              controller: _emailController,
-              decoration: InputDecoration(
-                labelText: "Email",
-              ),
+      body: WillPopScope(
+        onWillPop: () async {
+          showDialog(
+            context: context,
+            barrierDismissible: false,
+            builder: (context) => AlertDialog(
+              title: HeadingText("Do you really want to leave?"),
+              actions: [
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                    Navigator.pop(context);
+                  },
+                  child: Text("Yes"),
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: Text("No"),
+                ),
+              ],
             ),
-          ),
-          VerticalSpacer(16),
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16),
-            child: TextField(
-              controller: _passwordController,
-              decoration: InputDecoration(
-                labelText: "Password",
-              ),
-              obscureText: true,
-            ),
-          ),
-          VerticalSpacer(16),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              ElevatedButton(
-                onPressed: () async {
-                  try {
-                    UserCredential userCredential = await FirebaseAuth.instance
-                        .signInWithEmailAndPassword(
-                            email: _emailController.text,
-                            password: _passwordController.text);
+          );
 
-                    _emailController.clear();
-                    _passwordController.clear();
-                  } catch (e) {
-                    Toast.show(
-                      "Invalid Credentials\nor\nNetwork error!",
-                      context,
-                      duration: Toast.LENGTH_LONG,
-                      gravity: Toast.CENTER,
-                      backgroundColor: Colors.black87,
-                      textColor: Colors.white,
+          return Future.value(false);
+        },
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            HeadingText("Enter login credentials"),
+            VerticalSpacer(16),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 16),
+              child: TextField(
+                controller: _emailController,
+                decoration: InputDecoration(
+                  labelText: "Email",
+                ),
+              ),
+            ),
+            VerticalSpacer(16),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 16),
+              child: TextField(
+                controller: _passwordController,
+                decoration: InputDecoration(
+                  labelText: "Password",
+                ),
+                obscureText: true,
+              ),
+            ),
+            VerticalSpacer(16),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                ElevatedButton(
+                  onPressed: () async {
+                    showDialog(
+                      context: context,
+                      barrierDismissible: false,
+                      builder: (context) => SimpleDialog(
+                        title: HeadingText("Applying wallpaper"),
+                        children: [
+                          Center(
+                            child: CircularProgressIndicator(),
+                          ),
+                        ],
+                      ),
                     );
-                  }
-                },
-                child: Text(
-                  "Login",
-                  style: TextStyle(
-                    letterSpacing: 1.2,
+
+                    try {
+                      UserCredential userCredential = await FirebaseAuth
+                          .instance
+                          .signInWithEmailAndPassword(
+                              email: _emailController.text,
+                              password: _passwordController.text);
+
+                      _emailController.clear();
+                      _passwordController.clear();
+
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => UploadImage(),
+                        ),
+                      );
+                    } catch (e) {
+                      Toast.show(
+                        "Invalid Credentials",
+                        context,
+                        duration: Toast.LENGTH_LONG,
+                        gravity: Toast.CENTER,
+                        backgroundColor: Colors.black87,
+                        textColor: Colors.white,
+                      );
+                    }
+
+                    Navigator.pop(context);
+                  },
+                  child: Text(
+                    "Login",
+                    style: TextStyle(
+                      letterSpacing: 1.2,
+                    ),
                   ),
                 ),
-              ),
-              HorizontalSpacer(16),
-              ElevatedButton(
-                onPressed: () async {},
-                child: Text(
-                  "Forget Password?",
-                  style: TextStyle(
-                    letterSpacing: 1.2,
+                HorizontalSpacer(16),
+                ElevatedButton(
+                  onPressed: () async {},
+                  child: Text(
+                    "Forget Password?",
+                    style: TextStyle(
+                      letterSpacing: 1.2,
+                    ),
                   ),
                 ),
-              ),
-            ],
-          ),
-        ],
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }

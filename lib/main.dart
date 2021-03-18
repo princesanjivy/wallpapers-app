@@ -55,6 +55,9 @@ class _MyAppState extends State<MyApp> {
           ),
         ),
         appBarTheme: AppBarTheme(
+          iconTheme: IconThemeData(
+            color: Colors.black,
+          ),
           textTheme: GoogleFonts.sofiaTextTheme(
             Theme.of(context).textTheme.apply(
                   bodyColor: Colors.white,
