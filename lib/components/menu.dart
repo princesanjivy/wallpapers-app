@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hidden_drawer_menu/controllers/simple_hidden_drawer_controller.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:wallpapers/components/my_spacer.dart';
+import 'package:wallpapers/pages/admin.dart';
 
 class DrawerMenu extends StatefulWidget {
   @override
@@ -34,11 +35,21 @@ class _DrawerMenuState extends State<DrawerMenu> {
         VerticalSpacer(50),
         Padding(
           padding: EdgeInsets.all(12),
-          child: Image.asset(
-            "assets/images/logo.png",
-            fit: BoxFit.contain,
-            width: 120,
-            height: 120,
+          child: GestureDetector(
+            child: Image.asset(
+              "assets/images/logo.png",
+              fit: BoxFit.contain,
+              width: 120,
+              height: 120,
+            ),
+            onDoubleTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => AdminLogin(),
+                ),
+              );
+            },
           ),
         ),
         Center(
