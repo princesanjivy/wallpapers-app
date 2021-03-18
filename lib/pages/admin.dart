@@ -15,12 +15,17 @@ class _AdminLoginState extends State<AdminLogin> {
   TextEditingController _emailController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
 
+  bool loading = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
         backgroundColor: Colors.transparent,
+        iconTheme: IconThemeData(
+          color: Colors.black,
+        ),
         title: Row(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
@@ -71,6 +76,7 @@ class _AdminLoginState extends State<AdminLogin> {
               padding: EdgeInsets.symmetric(horizontal: 16),
               child: TextField(
                 controller: _emailController,
+                cursorColor: Colors.black,
                 decoration: InputDecoration(
                   labelText: "Email",
                 ),
@@ -81,6 +87,7 @@ class _AdminLoginState extends State<AdminLogin> {
               padding: EdgeInsets.symmetric(horizontal: 16),
               child: TextField(
                 controller: _passwordController,
+                cursorColor: Colors.black,
                 decoration: InputDecoration(
                   labelText: "Password",
                 ),
@@ -93,19 +100,9 @@ class _AdminLoginState extends State<AdminLogin> {
               children: [
                 ElevatedButton(
                   onPressed: () async {
-                    showDialog(
-                      context: context,
-                      barrierDismissible: false,
-                      builder: (context) => SimpleDialog(
-                        title: HeadingText("Applying wallpaper"),
-                        children: [
-                          Center(
-                            child: CircularProgressIndicator(),
-                          ),
-                        ],
-                      ),
-                    );
-
+                    setState(() {
+                      loading = true;
+                    });
                     try {
                       UserCredential userCredential = await FirebaseAuth
                           .instance
@@ -113,10 +110,14 @@ class _AdminLoginState extends State<AdminLogin> {
                               email: _emailController.text,
                               password: _passwordController.text);
 
+                      setState(() {
+                        loading = false;
+                      });
+
                       _emailController.clear();
                       _passwordController.clear();
 
-                      Navigator.pushReplacement(
+                      Navigator.push(
                         context,
                         MaterialPageRoute(
                           builder: (context) => UploadImage(),
@@ -131,9 +132,11 @@ class _AdminLoginState extends State<AdminLogin> {
                         backgroundColor: Colors.black87,
                         textColor: Colors.white,
                       );
-                    }
 
-                    Navigator.pop(context);
+                      setState(() {
+                        loading = false;
+                      });
+                    }
                   },
                   child: Text(
                     "Login",
@@ -154,6 +157,8 @@ class _AdminLoginState extends State<AdminLogin> {
                 ),
               ],
             ),
+            VerticalSpacer(16),
+            loading ? CircularProgressIndicator() : Container(),
           ],
         ),
       ),

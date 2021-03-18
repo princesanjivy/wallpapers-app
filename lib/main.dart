@@ -45,6 +45,11 @@ class _MyAppState extends State<MyApp> {
       theme: ThemeData(
         primaryColor: Colors.black,
         accentColor: Colors.black,
+        textSelectionTheme: TextSelectionThemeData(
+          cursorColor: Colors.black,
+          selectionHandleColor: Colors.black,
+          selectionColor: Colors.grey,
+        ),
         textTheme: GoogleFonts.tenorSansTextTheme(
           Theme.of(context).textTheme,
         ),
@@ -56,7 +61,7 @@ class _MyAppState extends State<MyApp> {
         ),
         appBarTheme: AppBarTheme(
           iconTheme: IconThemeData(
-            color: Colors.black,
+            color: Colors.white,
           ),
           textTheme: GoogleFonts.sofiaTextTheme(
             Theme.of(context).textTheme.apply(
