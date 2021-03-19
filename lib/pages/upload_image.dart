@@ -4,12 +4,16 @@ import 'dart:typed_data';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:toast/toast.dart';
+import 'package:wallpaper_manager/wallpaper_manager.dart';
 import 'package:wallpapers/components/my_spacer.dart';
 import 'package:wallpapers/components/my_text.dart';
+import 'package:wallpapers/constants.dart';
 
 class UploadImage extends StatefulWidget {
   @override
@@ -75,6 +79,39 @@ class _UploadImageState extends State<UploadImage> {
               "url": data["data"]["url"],
             },
           );
+
+          ///Updating to new wallpaper
+          SharedPreferences sharedPreferences =
+              await SharedPreferences.getInstance();
+          if (sharedPreferences.getBool(KEY_CHANGE_WALLPAPER) == true) {
+            int location = WallpaperManager.HOME_SCREEN;
+            var file = await DefaultCacheManager().getSingleFile(
+              data["data"]["url"],
+            );
+
+            final String result = await WallpaperManager.setWallpaperFromFile(
+                file.path, location);
+            print(result);
+            // if (result == "Wallpaper set") {
+            //   Toast.show(
+            //     "Wallpaper applied successfully",
+            //     context,
+            //     duration: Toast.LENGTH_LONG,
+            //     gravity: Toast.CENTER,
+            //     backgroundColor: Colors.white70,
+            //     textColor: Colors.black,
+            //   );
+            // } else {
+            //   Toast.show(
+            //     "Some error occurred",
+            //     context,
+            //     duration: Toast.LENGTH_LONG,
+            //     gravity: Toast.CENTER,
+            //     backgroundColor: Colors.white70,
+            //     textColor: Colors.black,
+            //   );
+            // }
+          }
         },
       );
     });
