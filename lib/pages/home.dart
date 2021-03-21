@@ -39,129 +39,135 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      body: SimpleHiddenDrawer(
-        contentCornerRadius: 30,
-        slidePercent: 60,
-        menu: DrawerMenu(),
-        screenSelectedBuilder: (position, controller) {
-          Widget body;
+    return WillPopScope(
+      onWillPop: () {
+        return;
+      },
+      child: Scaffold(
+        backgroundColor: Colors.white,
+        body: SimpleHiddenDrawer(
+          contentCornerRadius: 30,
+          slidePercent: 60,
+          menu: DrawerMenu(),
+          screenSelectedBuilder: (position, controller) {
+            Widget body;
 
-          switch (position) {
-            case 0:
-              body = WallpapersPage();
-              break;
-            case 1:
-              body = Favorites();
-              break;
-            case 3:
-              body = SettingsPage();
-              break;
-            case 4:
-              body = Center(
-                child: ElevatedButton(
-                  child: Text("Clear Prefs"),
-                  onPressed: () async {
-                    // SharedPreferences sharedPreferences =
-                    //     await SharedPreferences.getInstance();
-                    // sharedPreferences.clear();
+            switch (position) {
+              case 0:
+                body = WallpapersPage();
+                break;
+              case 1:
+                body = Favorites();
+                break;
+              case 3:
+                body = SettingsPage();
+                break;
+              case 4:
+                body = Center(
+                  child: ElevatedButton(
+                    child: Text("Clear Prefs"),
+                    onPressed: () async {
+                      // SharedPreferences sharedPreferences =
+                      //     await SharedPreferences.getInstance();
+                      // sharedPreferences.clear();
 
-                    UserCredential userCredential = await FirebaseAuth.instance
-                        .signInWithEmailAndPassword(
-                            email: adminEmail, password: adminPassword);
+                      UserCredential userCredential = await FirebaseAuth
+                          .instance
+                          .signInWithEmailAndPassword(
+                              email: adminEmail, password: adminPassword);
 
-                    final pickedFile = await ImagePicker()
-                        .getImage(source: ImageSource.gallery);
+                      final pickedFile = await ImagePicker()
+                          .getImage(source: ImageSource.gallery);
 
-                    showDialog(
-                      context: context,
-                      barrierDismissible: false,
-                      builder: (context) => SimpleDialog(
-                        title: HeadingText("Please wait"),
-                        children: [
-                          Center(
-                            child: CircularProgressIndicator(),
-                          ),
-                        ],
-                      ),
-                    );
-
-                    await pickedFile.readAsBytes().then((value) async {
-                      var request = http.MultipartRequest(
-                        "POST",
-                        Uri.parse(
-                            "https://api.imgbb.com/1/upload?expiration=600&key=a02671eb5d1fb97fbb43de60da54af7d"),
-                      )..files.add(
-                          http.MultipartFile.fromString(
-                            "image",
-                            Base64Encoder().convert(value),
-                          ),
-                        );
-
-                      var response = await request.send();
-                      response.stream.bytesToString().then(
-                        (value) async {
-                          Map data = jsonDecode(value);
-                          print(data["data"]["id"]);
-                          print(data["data"]["url"]);
-
-                          await FirebaseFirestore.instance
-                              .collection("wallpapers")
-                              .add(
-                            {
-                              "id": data["data"]["id"],
-                              "url": data["data"]["url"],
-                            },
-                          ).then((value) async {
-                            await FirebaseAuth.instance.signOut();
-                          });
-                        },
+                      showDialog(
+                        context: context,
+                        barrierDismissible: false,
+                        builder: (context) => SimpleDialog(
+                          title: HeadingText("Please wait"),
+                          children: [
+                            Center(
+                              child: CircularProgressIndicator(),
+                            ),
+                          ],
+                        ),
                       );
-                    });
 
-                    Navigator.pop(context);
-                  },
-                ),
-              );
-              break;
-          }
-          return Scaffold(
-            extendBodyBehindAppBar: position == 0 ? true : false,
-            appBar: AppBar(
-              elevation: 0,
-              backgroundColor: Colors.transparent,
-              leading: Padding(
-                padding: EdgeInsets.all(12),
-                child: InkWell(
-                  child: SvgPicture.asset(
-                    "assets/svg/menu.svg",
-                    width: 28,
-                    height: 28,
-                    color: position == 0 ? Colors.white : Colors.black,
+                      await pickedFile.readAsBytes().then((value) async {
+                        var request = http.MultipartRequest(
+                          "POST",
+                          Uri.parse(
+                              "https://api.imgbb.com/1/upload?expiration=600&key=a02671eb5d1fb97fbb43de60da54af7d"),
+                        )..files.add(
+                            http.MultipartFile.fromString(
+                              "image",
+                              Base64Encoder().convert(value),
+                            ),
+                          );
+
+                        var response = await request.send();
+                        response.stream.bytesToString().then(
+                          (value) async {
+                            Map data = jsonDecode(value);
+                            print(data["data"]["id"]);
+                            print(data["data"]["url"]);
+
+                            await FirebaseFirestore.instance
+                                .collection("wallpapers")
+                                .add(
+                              {
+                                "id": data["data"]["id"],
+                                "url": data["data"]["url"],
+                              },
+                            ).then((value) async {
+                              await FirebaseAuth.instance.signOut();
+                            });
+                          },
+                        );
+                      });
+
+                      Navigator.pop(context);
+                    },
                   ),
-                  onTap: () {
-                    controller.toggle();
-                  },
-                ),
-              ),
-              title: Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  Text(
-                    menuItemsName[position],
-                    style: GoogleFonts.sofia(
+                );
+                break;
+            }
+            return Scaffold(
+              extendBodyBehindAppBar: position == 0 ? true : false,
+              appBar: AppBar(
+                elevation: 0,
+                backgroundColor: Colors.transparent,
+                leading: Padding(
+                  padding: EdgeInsets.all(12),
+                  child: InkWell(
+                    child: SvgPicture.asset(
+                      "assets/svg/menu.svg",
+                      width: 28,
+                      height: 28,
                       color: position == 0 ? Colors.white : Colors.black,
-                      fontSize: 32,
-                      fontWeight: FontWeight.w500,
                     ),
+                    onTap: () {
+                      controller.toggle();
+                    },
                   ),
-                ],
+                ),
+                title: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Text(
+                      menuItemsName[position],
+                      style: GoogleFonts.sofia(
+                        color: position == 0 ? Colors.white : Colors.black,
+                        fontSize: 32,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ],
+                ),
               ),
-            ),
-            body: body,
-          );
-        },
+              body: body,
+            );
+          },
+        ),
       ),
     );
   }
