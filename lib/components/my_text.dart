@@ -29,6 +29,7 @@ class ContentText extends StatelessWidget {
       style: TextStyle(
         fontSize: 16,
         fontWeight: FontWeight.w200,
+        wordSpacing: 1.4,
       ),
     );
   }

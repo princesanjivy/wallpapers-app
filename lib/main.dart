@@ -1,5 +1,4 @@
 import 'package:admob_flutter/admob_flutter.dart';
-import 'package:android_alarm_manager/android_alarm_manager.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -7,26 +6,27 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wallpapers/constants.dart';
 import 'package:wallpapers/pages/home.dart';
 
-void printHello() async {
-  // await Firebase.initializeApp();
-  //
-  // await FirebaseFirestore.instance.collection("test").add({
-  //   "data": Random().nextInt(50).toString(),
-  //   "time": DateTime.now().hour.toString() + DateTime.now().minute.toString()
-  // });
-  print("Data inserted");
-}
+// void printHello() async {
+//   // await Firebase.initializeApp();
+//   //
+//   // await FirebaseFirestore.instance.collection("test").add({
+//   //   "data": Random().nextInt(50).toString(),
+//   //   "time": DateTime.now().hour.toString() + DateTime.now().minute.toString()
+//   // });
+//   // print("Data inserted");
+// }
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
   await Firebase.initializeApp();
   Admob.initialize();
 
-  final int helloAlarmID = 0;
-  await AndroidAlarmManager.initialize();
-  await AndroidAlarmManager.periodic(
-      Duration(minutes: 1), helloAlarmID, printHello,
-      wakeup: true);
+  // final int helloAlarmID = 0;
+  // await AndroidAlarmManager.initialize();
+  // await AndroidAlarmManager.periodic(
+  //     Duration(minutes: 1), helloAlarmID, printHello,
+  //     wakeup: true);
 
   SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
 

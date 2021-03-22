@@ -70,6 +70,14 @@ class _AdminLoginState extends State<AdminLogin> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            // VerticalSpacer(64),
+            // Image.asset(
+            //   "assets/images/logo.png",
+            //   fit: BoxFit.contain,
+            //   width: 140,
+            //   height: 140,
+            // ),
+            // VerticalSpacer(8),
             HeadingText("Enter login credentials"),
             VerticalSpacer(16),
             Padding(
