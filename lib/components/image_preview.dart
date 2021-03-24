@@ -1,6 +1,5 @@
 import 'package:admob_flutter/admob_flutter.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:lottie/lottie.dart';
@@ -11,6 +10,7 @@ import 'package:wallpapers/components/bottom_panel.dart';
 import 'package:wallpapers/components/my_spacer.dart';
 import 'package:wallpapers/components/my_text.dart';
 import 'package:wallpapers/constants.dart';
+import 'package:wallpapers/helpers/save_image.dart';
 
 class ImagePreview extends StatefulWidget {
   final String imageUrl;
@@ -173,11 +173,22 @@ class _ImagePreviewState extends State<ImagePreview>
           save: () async {
             print(widget.imageUrl);
 
-            await FirebaseFirestore.instance
-                .collection("wallpapers")
-                .get()
-                .then((value) =>
-                    print("RESULT: " + value.docs.first.data().toString()));
+            FileInfo imageFile =
+                await DefaultCacheManager().downloadFile(widget.imageUrl);
+            SaveImageToDir(
+              imageFile.file,
+              widget.imageUrl.substring(
+                  widget.imageUrl.lastIndexOf("/"), widget.imageUrl.length),
+            ).saveImageToDir();
+
+            Toast.show(
+              "Image saved!",
+              context,
+              duration: Toast.LENGTH_LONG,
+              gravity: Toast.CENTER,
+              backgroundColor: Colors.white70,
+              textColor: Colors.black,
+            );
 
             if (await _interstitial.isLoaded) {
               _interstitial.show();
