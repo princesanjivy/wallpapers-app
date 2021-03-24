@@ -11,7 +11,7 @@ class HeadingText extends StatelessWidget {
       text,
       style: TextStyle(
         fontSize: 17.2,
-        fontWeight: FontWeight.w400,
+        fontWeight: FontWeight.w700,
       ),
     );
   }
@@ -30,6 +30,7 @@ class ContentText extends StatelessWidget {
         fontSize: 16,
         fontWeight: FontWeight.w200,
         wordSpacing: 1.4,
+        color: Colors.grey[800],
       ),
     );
   }

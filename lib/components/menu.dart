@@ -14,7 +14,7 @@ class _DrawerMenuState extends State<DrawerMenu> {
     "Wallpapers",
     "Favorites",
     "Rate & Review",
-    "Settings",
+    // "Settings",
     "About"
   ];
 
@@ -73,7 +73,7 @@ class _DrawerMenuState extends State<DrawerMenu> {
                       hiddenDrawerController.setSelectedMenuPosition(i);
                     } else {
                       await launch(
-                        "https://play.google.com/store/apps/dev?id=6439925551269057866",
+                        "https://play.google.com/store/apps/details?id=com.princeappstudio.rgq_wallpapers",
                       );
                       hiddenDrawerController.close();
                     }

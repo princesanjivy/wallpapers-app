@@ -84,7 +84,8 @@ class _ImagePreviewState extends State<ImagePreview>
             } else {
               List<String> temp =
                   sharedPreferences.getStringList(KEY_FAVORITES);
-              temp.add(widget.imageUrl);
+              if (temp.indexOf(widget.imageUrl) == -1)
+                temp.add(widget.imageUrl);
 
               await sharedPreferences.setStringList(KEY_FAVORITES, temp);
             }

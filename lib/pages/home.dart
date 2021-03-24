@@ -3,9 +3,9 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hidden_drawer_menu/hidden_drawer_menu.dart';
 import 'package:wallpapers/components/menu.dart';
+import 'package:wallpapers/components/my_text.dart';
 import 'package:wallpapers/pages/about_dev.dart';
 import 'package:wallpapers/pages/favorites.dart';
-import 'package:wallpapers/pages/settings.dart';
 import 'package:wallpapers/pages/wallpapers.dart';
 
 class Home extends StatefulWidget {
@@ -26,7 +26,7 @@ class _HomeState extends State<Home> {
     "Wallpapers",
     "Favorites",
     "Rate & Review",
-    "Settings",
+    // "Settings",
     "About",
   ];
 
@@ -34,7 +34,31 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () {
-        return;
+        showDialog(
+          context: context,
+          barrierDismissible: false,
+          builder: (context) => AlertDialog(
+            title: HeadingText("Do you really want to leave?"),
+            actions: [
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                  Navigator.pop(context);
+                },
+                child: Text("Yes"),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: Text("No"),
+              ),
+            ],
+          ),
+        );
+        return Future.value(false);
+
+        // return;
       },
       child: Scaffold(
         backgroundColor: Colors.white,
@@ -52,10 +76,10 @@ class _HomeState extends State<Home> {
               case 1:
                 body = Favorites();
                 break;
+              // case 3:
+              // body = SettingsPage();
+              // break;
               case 3:
-                body = SettingsPage();
-                break;
-              case 4:
                 body = AboutDev();
                 // body = Center(
                 //   child: ElevatedButton(
