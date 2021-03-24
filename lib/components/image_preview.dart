@@ -181,6 +181,13 @@ class _ImagePreviewState extends State<ImagePreview>
                   widget.imageUrl.lastIndexOf("/"), widget.imageUrl.length),
             ).saveImageToDir();
 
+            if (await _interstitial.isLoaded) {
+              _interstitial.show();
+              // return "Ad is showing";
+            } else {
+              // return "Ad is not loaded!";
+            }
+
             Toast.show(
               "Image saved!",
               context,
@@ -189,13 +196,6 @@ class _ImagePreviewState extends State<ImagePreview>
               backgroundColor: Colors.white70,
               textColor: Colors.black,
             );
-
-            if (await _interstitial.isLoaded) {
-              _interstitial.show();
-              return "Ad is showing";
-            } else {
-              return "Ad is not loaded!";
-            }
           },
         ),
       ],
