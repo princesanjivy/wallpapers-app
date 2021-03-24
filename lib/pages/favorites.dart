@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -37,8 +38,10 @@ class _FavoritesState extends State<Favorites> {
                     GestureDetector(
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(22),
-                    child: Image.network(
-                      snapshot.data[index].toString(),
+                    child: CachedNetworkImage(
+                      imageUrl: snapshot.data[index].toString(),
+                      placeholder: (context, value) =>
+                          Center(child: CircularProgressIndicator()),
                       fit: BoxFit.cover,
                     ),
                   ),
@@ -47,8 +50,11 @@ class _FavoritesState extends State<Favorites> {
                       context,
                       MaterialPageRoute(
                         builder: (context) => FullScreenView(
-                          child: Image.network(
-                            snapshot.data[index].toString(),
+                          child: CachedNetworkImage(
+                            imageUrl: snapshot.data[index].toString(),
+                            placeholder: (context, value) =>
+                                Center(child: CircularProgressIndicator()),
+                            fit: BoxFit.cover,
                           ),
                         ),
                       ),
