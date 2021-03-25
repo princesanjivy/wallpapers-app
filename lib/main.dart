@@ -1,10 +1,14 @@
 import 'package:admob_flutter/admob_flutter.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:wallpaper_manager/wallpaper_manager.dart';
 import 'package:wallpapers/constants.dart';
 import 'package:wallpapers/pages/home.dart';
+import 'package:workmanager/workmanager.dart';
 
 // void printHello() async {
 //   // await Firebase.initializeApp();
@@ -16,12 +20,52 @@ import 'package:wallpapers/pages/home.dart';
 //   // print("Data inserted");
 // }
 
+void callbackDispatcher() {
+  Workmanager.executeTask((task, inputData) async {
+    // print("Hey Prince!"); //simpleTask will be emitted here.
+
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    print(sharedPreferences.getString(KEY_NEW_WALLPAPER));
+
+    await Firebase.initializeApp();
+    await FirebaseFirestore.instance
+        .collection("new_wallpaper")
+        .doc("0")
+        .get()
+        .then((value) async {
+      // print(value.get("id"));
+      if (value.get("id") != sharedPreferences.getString(KEY_NEW_WALLPAPER)) {
+        // print("HELLO");
+        int location = WallpaperManager.HOME_SCREEN;
+        var file = await DefaultCacheManager().getSingleFile(
+          value.get("url"),
+        );
+
+        final String result =
+            await WallpaperManager.setWallpaperFromFile(file.path, location);
+        print(result);
+        sharedPreferences.setString(KEY_NEW_WALLPAPER, value.get("id"));
+      }
+    });
+
+    return Future.value(true);
+  });
+}
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   await Firebase.initializeApp();
   Admob.initialize();
 
+  Workmanager.initialize(callbackDispatcher, isInDebugMode: true);
+  Workmanager.registerPeriodicTask(
+    "351",
+    "prince",
+    frequency: Duration(
+      minutes: 16,
+    ),
+  );
   // final int helloAlarmID = 0;
   // await AndroidAlarmManager.initialize();
   // await AndroidAlarmManager.periodic(

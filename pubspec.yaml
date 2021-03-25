@@ -28,7 +28,7 @@ dependencies:
   image_picker: ^0.7.3
   firebase_auth: ^1.0.1
   workmanager: ^0.2.3
-
+  path_provider: ^2.0.1
 
 dependency_overrides:
   http: ^0.13.0

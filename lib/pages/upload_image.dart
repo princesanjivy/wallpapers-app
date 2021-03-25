@@ -7,9 +7,11 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:toast/toast.dart';
 import 'package:wallpapers/components/my_spacer.dart';
 import 'package:wallpapers/components/my_text.dart';
+import 'package:wallpapers/constants.dart';
 
 class UploadImage extends StatefulWidget {
   @override
@@ -76,7 +78,21 @@ class _UploadImageState extends State<UploadImage> {
             },
           );
 
+          await FirebaseFirestore.instance
+              .collection("new_wallpaper")
+              .doc("0")
+              .set(
+            {
+              "id": data["data"]["id"],
+              "url": data["data"]["url"],
+            },
+          );
+
           ///Updating to new wallpaper
+          SharedPreferences sharedPreferences =
+              await SharedPreferences.getInstance();
+          sharedPreferences.setString(KEY_NEW_WALLPAPER, data["data"]["id"]);
+
           // SharedPreferences sharedPreferences =
           //     await SharedPreferences.getInstance();
           // if (sharedPreferences.getBool(KEY_CHANGE_WALLPAPER) == true) {
